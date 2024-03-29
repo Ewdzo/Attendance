@@ -6,9 +6,12 @@ import ImageIcon from "../../assets/image.svg";
 import UFULogo from "../../assets/ufu.png";
 import { useState } from "react";
 import { scanQRInput } from "@/app/helper/qrcode";
+import { registerStudent } from "@/app/helper/register";
+import { color } from "framer-motion";
 
 export const Start = () => {
-    const [student, setStudent] = useState<any>({ foto: ImageIcon, default: true });
+    const [ student, setStudent ] = useState<any>({ foto: ImageIcon, default: true });
+    const [ register, setRegister ] = useState<any>({ default: true});
 
     return (
         <Card className="p-10">
@@ -20,11 +23,11 @@ export const Start = () => {
                     src={UFULogo}
                 />
                 <Spacer y={2}/>
-                <p className="text-tiny uppercase font-bold">Controle de Frequência</p>
+                <p className="uppercase font-bold">Controle de Frequência</p>
             </CardHeader>
             <Spacer y={5} />
             <CardBody className="overflow-visible py-2 items-between">
-                <div className="items-center flex flex-col">
+                <div className="items-center flex flex-col p-4">
                     <label htmlFor="file-input" className="p-12 border-8 rounded-lg border-gray-200">
                         <NextImage
                             width={150}
@@ -34,7 +37,7 @@ export const Start = () => {
                             className={student.default ? "opacity-25" : ""}
                         />
                     </label>
-                    <Spacer y={5} />
+                    <Spacer y={2} />
                     { student.error && <p>{student.error}</p> }
                     { student.nome && <p>{student.nome}</p> }
                     <input
@@ -46,11 +49,13 @@ export const Start = () => {
                     />
 
                 </div>
-                <div className="items-center flex flex-col">
-                    <Spacer y={10} />
-                    <Button>Confirmar</Button>
-                    <Spacer y={5} />
-                    <Button>Cadastrar-se</Button>
+                <div className="justify-between flex gap-4">
+                    <Button color="primary" onClick={() => console.log(register)}>Confirmar Presença</Button>
+                    <div className="flex flex-col gap-2 items-center">
+                        <Button onClick={() => !student.default && registerStudent(student, setRegister)}>Cadastrar-se</Button>
+                        { register.error && <p className="text-red-500">{ register.error }</p> }
+                        { register.success && <p className="text-green-500">{ register.success }</p> }
+                    </div>
                 </div>
             </CardBody>
         </Card>
