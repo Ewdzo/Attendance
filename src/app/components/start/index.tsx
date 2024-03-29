@@ -6,7 +6,7 @@ import ImageIcon from "../../assets/image.svg";
 import UFULogo from "../../assets/ufu.png";
 import { useState } from "react";
 import { scanQRInput } from "@/app/helper/qrcode";
-import { registerStudent } from "@/app/helper/register";
+import { registerStudent, updateAttendance } from "@/app/helper/database";
 
 export const Start = () => {
     const [ student, setStudent ] = useState<any>({ foto: ImageIcon, default: true });
@@ -49,7 +49,7 @@ export const Start = () => {
 
                 </div>
                 <div className="justify-between flex gap-4 flex-col">
-                    <Button color="primary" onClick={() => console.log(register)}>Confirmar Presença</Button>
+                    <Button color="primary" onClick={() => !student.default && updateAttendance(student, setRegister)}>Confirmar Presença</Button>
                     <Button onClick={() => !student.default && registerStudent(student, setRegister)}>Cadastrar-se</Button>
                     { register.error && <p className="text-red-500 text-center w-full">{ register.error }</p> }
                     { register.success && <p className="text-green-500 text-center w-full">{ register.success }</p> }
